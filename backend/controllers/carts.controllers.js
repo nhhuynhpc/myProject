@@ -3,7 +3,7 @@ const sequelize = require("../database/connection");
 const CartData = require("../models/carts.Model")
 
 
-const postCarts = async (req, res) => {
+const PostCarts = async (req, res) => {
     let dataCarts = {
         user_id: req.body.user_id ?? ''
     }
@@ -49,7 +49,7 @@ const postCarts = async (req, res) => {
     })
 }
 
-const getProductInCart = async (req, res) => {
+const GetProductInCart = async (req, res) => {
     let user_id = req.body.user_id ?? ''
     const [result, metadata] = await sequelize.query(
         `SELECT products.name, products.image, products.price, carts_details.id AS cartsDetailsId, carts_details.product_id, carts_details.cart_id, carts_details.quantity, carts_details.size, carts_details.status, carts.user_id FROM products INNER JOIN carts_details ON products.id = carts_details.product_id
@@ -65,6 +65,6 @@ const getProductInCart = async (req, res) => {
 }
 
 module.exports = {
-    postCarts: postCarts,
-    getProductInCart, getProductInCart,
+    PostCarts: PostCarts,
+    GetProductInCart: GetProductInCart,
 }

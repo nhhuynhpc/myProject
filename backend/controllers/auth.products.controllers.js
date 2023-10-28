@@ -7,7 +7,7 @@ const Products = require("../models/products.Model");
 var slugify = require("slugify");
 const CustomersObject = require("../models/customersObject.Model");
 
-const loadimg = async (req, res) => {
+const LoadImgProduct = async (req, res) => {
   let filename = req.file.filename;
   const fixedImagePath = req.file.path.replace(/\\/g, "/");
   console.log("Fixed image path:", fixedImagePath);
@@ -28,7 +28,7 @@ const loadimg = async (req, res) => {
   }
 };
 
-const postProduct = async (req, res) => {
+const PostProduct = async (req, res) => {
   let dataProduct = {
     categories_detail_id: req.body.categories_id ?? "",
     customers_object_id: req.body.customers_object_id ?? "",
@@ -74,7 +74,7 @@ const postProduct = async (req, res) => {
   });
 };
 
-const updateProduct = async (req, res) => {
+const UpdateProduct = async (req, res) => {
   let dataProduct = {
     id: req.body.id ?? "",
     categories_detail_id: req.body.categories_id ?? "",
@@ -119,7 +119,7 @@ const updateProduct = async (req, res) => {
   });
 };
 
-const deleteProduct = async (req, res) => {
+const DeleteProduct = async (req, res) => {
   await Products.destroy({
     where: { id: req.body.id },
   }).catch((err) => {
@@ -131,7 +131,7 @@ const deleteProduct = async (req, res) => {
   });
 };
 
-const getProduct = async (req, res) => {
+const GetProduct = async (req, res) => {
   const [result, metadata] = await sequelize.query(
     `SELECT products.id, products.categories_detail_id, products.customers_object_id, products.name, products.slug, products.image, products.price, categories_details.name AS typeProduct, customers_objects.name AS typeCustomer
     FROM products 
@@ -143,7 +143,7 @@ const getProduct = async (req, res) => {
   });
 };
 
-const searchProduct = async (req, res) => {
+const SearchProduct = async (req, res) => {
   let data = req.body.data ?? "";
   console.log(data);
   let result = await Products.findAll({
@@ -169,7 +169,7 @@ const searchProduct = async (req, res) => {
   });
 }; // Chưa sửa
 
-const getCustomerObject = async (req, res) => {
+const GetCustomerObject = async (req, res) => {
     const result = await CustomersObject.findAll().catch(err => {console.log("Fall: " + err);})
     return res.status(200).json({
         customersObject: result,
@@ -177,7 +177,7 @@ const getCustomerObject = async (req, res) => {
     })
 };
 
-const getProductDetail = async (req, res) => {
+const GetProductDetail = async (req, res) => {
   const [result, metadata] = await sequelize.query(
     `SELECT products.id, products.categories_detail_id, products.customers_object_id,
     products.name, products.slug, products.description, products.content, 
@@ -198,7 +198,7 @@ const getProductDetail = async (req, res) => {
   });
 }; // Chưa xong
 
-const getGroupProductByCustomer = async (req, res) => {
+const GetGroupProductByCustomer = async (req, res) => {
   let typeCustomer = req.body.typeCustomer
   const [result, metadata] = await sequelize.query(
     `SELECT products.id, products.name, products.slug, products.image, 
@@ -221,13 +221,13 @@ const getGroupProductByCustomer = async (req, res) => {
 }
 
 module.exports = {
-  loadimg: loadimg,
-  postProduct: postProduct,
-  getProduct: getProduct,
-  updateProduct: updateProduct,
-  deleteProduct: deleteProduct,
-  searchProduct: searchProduct,
-  getProductDetail: getProductDetail,
-  getCustomerObject: getCustomerObject,
-  getGroupProductByCustomer: getGroupProductByCustomer,
+  LoadImgProduct: LoadImgProduct,
+  PostProduct: PostProduct,
+  GetProduct: GetProduct,
+  UpdateProduct: UpdateProduct,
+  DeleteProduct: DeleteProduct,
+  SearchProduct: SearchProduct,
+  GetProductDetail: GetProductDetail,
+  GetCustomerObject: GetCustomerObject,
+  GetGroupProductByCustomer: GetGroupProductByCustomer,
 };

@@ -1,10 +1,10 @@
 const sequelize = require("../database/connection");
-const CategoriesDetail = require("../models/categorieDetails.Model");
 require('dotenv').config();
 var slugify = require("slugify");
+const CategoriesDetail = require("../models/categorieDetails.Model");
 const Categories = require('../models/categories.Model')
 
-const loadimg = async (req, res) => {
+const LoadImgCategories = async (req, res) => {
     let filename = req.file.filename;
     try {
       await CategoriesDetail.update(
@@ -159,6 +159,6 @@ module.exports = {
     PostDeleteCateDetail: PostDeleteCateDetail,
     GetCategoriesDetails: GetCategoriesDetails,
     GetCategories: GetCategories,
-    loadimg: loadimg,
+    LoadImgCategories: LoadImgCategories,
     FetchCateDetailWithSlug,
 }

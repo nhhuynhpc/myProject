@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const userServices = require('../services/user.Service')
 const { generateToken } = require('../services/auth.Service')
 
-const getUser = async (req, res) => {
+const GetUser = async (req, res) => {
     let dataUser = await User.findAll()
 
     return res.status(200).json({
@@ -12,7 +12,7 @@ const getUser = async (req, res) => {
     })
 }
 
-const login = async (req, res) => {
+const Login = async (req, res) => {
     let dataLogin = {
         email: req.body.email ?? '',
         password: req.body.password ?? '',
@@ -82,7 +82,7 @@ const login = async (req, res) => {
     })
 }
 
-const register = async (req, res) => {
+const Register = async (req, res) => {
     let dataRegister = {
         username: req.body.username ?? '',
         email: req.body.email ?? '',
@@ -144,7 +144,7 @@ const register = async (req, res) => {
 }
 
 module.exports = {
-    getUser: getUser,
-    login: login,
-    register: register,
+    GetUser: GetUser,
+    Login: Login,
+    Register: Register,
 }
