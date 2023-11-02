@@ -66,14 +66,17 @@ const GetOrdersByUserId = async (req, res) => {
 };
 
 const GetOrderById = async (req, res) => {
-    let result = await OrderData.findAll({where: {id: req.body.id }})
-    .catch(err => {console.log("Fall: " + err);})
+    let result = await OrderData.findAll({ where: { id: req.body.id } }).catch(
+        (err) => {
+            console.log('Fall: ' + err);
+        }
+    );
 
     return res.status(200).json({
         result: result,
-        err: 0
-    })
-}
+        err: 0,
+    });
+};
 
 const GetOrdersAll = async (req, res) => {
     let result = await OrderData.findAll().catch((err) => {
@@ -90,16 +93,32 @@ const PostUpdateOrder = async (req, res) => {
     let dataOrder = {
         id: req.body.id,
         status: req.body.status,
+        delivery_date: req.body.deliveryDate,
     };
-    
-    await OrderData.update(dataOrder, {
+
+    let result = await OrderData.update(dataOrder, {
         where: { id: dataOrder.id },
-    }).catch(err => {console.log("Fall: " + err);})
+    }).catch((err) => {
+        console.log('Fall: ' + err);
+    });
 
     return res.status(200).json({
+        result: result,
         msg: 'Thành công',
-        err: 0
-    })
+        err: 0,
+    });
+};
+
+const PostCancelOrder = async (req, res) => {
+    await OrderData.update(
+        { status: 3 },
+        { where: { id: req.body.id, user_id: req.body.user_id } }
+    ).catch(err => console.log('Fall: ' + err))
+
+    return res.status(200).json({
+        msg: 'success',
+        err: 0,
+    });
 };
 
 module.exports = {
@@ -108,4 +127,5 @@ module.exports = {
     GetOrdersAll: GetOrdersAll,
     PostUpdateOrder: PostUpdateOrder,
     GetOrderById: GetOrderById,
+    PostCancelOrder: PostCancelOrder,
 };

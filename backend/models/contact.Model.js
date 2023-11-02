@@ -1,10 +1,11 @@
 const { Sequelize, DataTypes, INTEGER, DATE } = require('sequelize');
 const sequelize = require('../database/connection');
 
-const Contact = sequelize.define('contact', {
+const Contact = sequelize.define('contacts', {
     id: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
+        primaryKey: true
     },
     user_id: {
         type: DataTypes.INTEGER,

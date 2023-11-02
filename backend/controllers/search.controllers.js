@@ -16,12 +16,14 @@ const SearchProduct = async (req, res) => {
 
     if (resultSearchProduct.length === 0) {
         return res.status(200).json({
+            textSearch: textSearch,
             msg: "Không tìm thấy sản phầm nào",
             err: 0
         })
     }
 
     return res.status(200).json({
+        textSearch: textSearch,
         resultSearchProduct: resultSearchProduct,
         quantityResult: resultSearchProduct.length,
         msg: 'Thành công',

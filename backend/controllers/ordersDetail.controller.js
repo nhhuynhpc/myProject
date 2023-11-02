@@ -6,7 +6,7 @@ const OrderDetail = require('../models/ordersDetails.Model');
 const PostAddOrdersDetail = async (req, res) => {
     let dataOrdersDetail = {
         order_id: req.body.order_id ?? '',
-        size: req.body.size ?? '',
+        size: '',
         product_id: '',
         quantity: '',
         status: '',
@@ -23,6 +23,7 @@ const PostAddOrdersDetail = async (req, res) => {
     for (let item of products) {
         let dataOrdersDetailItem = {
             ...dataOrdersDetail,
+            size: item.size,
             product_id: item.product_id,
             quantity: item.quantity,
             status: '0',
@@ -55,9 +56,10 @@ const GetDataHistoryProduct = async (req, res) => {
     for (let item of listOrderId) {
         const [result, metadata] = await sequelize.query(
             `SELECT order_details.id, order_details.order_id, order_details.size, order_details.quantity, order_details.status, products.name, products.slug, 
-            products.image, products.price, products.created_at 
+            products.image, products.price, order_details.created_at, orders.delivery_date
             FROM order_details 
             INNER JOIN products ON order_details.product_id = products.id 
+            INNER JOIN orders ON order_details.order_id = orders.id
             WHERE order_details.order_id = '${item}' ` 
         );
         for (let i of result) {

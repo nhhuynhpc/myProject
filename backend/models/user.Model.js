@@ -2,9 +2,10 @@ const { Sequelize, DataTypes, INTEGER, DATE } = require('sequelize');
 const sequelize = require('../database/connection');
 
 const User = sequelize.define('users', {
-    username: {
-        type: DataTypes.STRING,
-        allowNull: true
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        primaryKey: true
     },
     email: {
         type: DataTypes.STRING,
@@ -30,7 +31,9 @@ const User = sequelize.define('users', {
         type: INTEGER,
         allowNull: true
     },
-    
+    deleted_at: {
+        type: DataTypes.DATE
+    }
 }, {
     timestamps: false
 })

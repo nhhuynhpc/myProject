@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/uploadFile')
 
-const controllerCate = require('../controllers/auth.categories.controllers');
+const controllerCate = require('../controllers/categories.controllers');
 
 // categories
 router.get('/', controllerCate.GetCategories)

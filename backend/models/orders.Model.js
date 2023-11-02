@@ -39,6 +39,10 @@ const OrderData = sequelize.define('orders', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    delivery_date: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     created_at: {
         type: DataTypes.DATE,
         allowNull: true,

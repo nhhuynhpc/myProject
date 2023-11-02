@@ -18,6 +18,7 @@ const orderDetailRoute = require('./routes/orderdetail.Routes')
 app.use(cors({
   origin: '*'
 }))
+
   app.use(express.json());
   app.use('/api/v1/auth', jsonParser, urlencodeParser, authRoute);
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/uploadFile')
 
-const controllerProducts = require('../controllers/auth.products.controllers');
+const controllerProducts = require('../controllers/products.controllers');
 
 // Product
 router.get('/', controllerProducts.GetProduct)

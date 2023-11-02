@@ -2,7 +2,6 @@ const { Sequelize, Op } = require("sequelize");
 const sequelize = require("../database/connection");
 require("dotenv").config();
 const path = require("path");
-const Categories = require("../models/categories.Model");
 const Products = require("../models/products.Model");
 var slugify = require("slugify");
 const CustomersObject = require("../models/customersObject.Model");
@@ -16,7 +15,7 @@ const LoadImgProduct = async (req, res) => {
     await Products.update(
       {
         image: filename,
-      },
+      }, 
       {
         where: { id: req.body.id },
       }
@@ -136,7 +135,8 @@ const GetProduct = async (req, res) => {
     `SELECT products.id, products.categories_detail_id, products.customers_object_id, products.name, products.slug, products.image, products.price, categories_details.name AS typeProduct, customers_objects.name AS typeCustomer
     FROM products 
     INNER JOIN categories_details ON products.categories_detail_id = categories_details.id
-    INNER JOIN customers_objects ON products.customers_object_id = customers_objects.id`
+    INNER JOIN customers_objects ON products.customers_object_id = customers_objects.id
+    ORDER BY products.id ASC`
   );
   return res.status(200).json({
     dataProduct: result,
@@ -145,16 +145,14 @@ const GetProduct = async (req, res) => {
 
 const SearchProduct = async (req, res) => {
   let data = req.body.data ?? "";
-  console.log(data);
-  let result = await Products.findAll({
-    where: {
-      name: {
-        [Op.like]: "%" + data + "%",
-      },
-    },
-  }).catch((err) => {
-    console.log("Fall: " + err);
-  });
+  const [result, metadata] = await sequelize.query(
+    `SELECT products.id, products.categories_detail_id, products.customers_object_id, products.name, products.slug, products.image, products.price, categories_details.name AS typeProduct, customers_objects.name AS typeCustomer
+    FROM products 
+    INNER JOIN categories_details ON products.categories_detail_id = categories_details.id
+    INNER JOIN customers_objects ON products.customers_object_id = customers_objects.id 
+    WHERE products.name LIKE '%${data}%';`
+  );
+
   if (result.length === 0) {
     return res.status(200).json({
       msg: "Không tìm thấy sản phẩm",
