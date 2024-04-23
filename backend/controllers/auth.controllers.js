@@ -218,15 +218,17 @@ const Register = async (req, res) => {
         role: 'user',
         email_verified_at: new Date(),
     };
-    let createUser = await User.create(dataRegister);
+    await User.create(dataRegister);
     const userNewCreate = await User.findOne({
         order: [['id', 'DESC']],
     });
+
     dataContactUser = { ...dataContactUser, user_id: userNewCreate.id };
     await Contact.create(dataContactUser);
 
     return res.status(200).json({
-        result: createUser,
+        token: token,
+        result: userNewCreate,
         msg: 'Tạo Tài khoản thành công',
         err: 0,
     });

@@ -51,8 +51,11 @@ const PostCarts = async (req, res) => {
 
 const GetProductInCart = async (req, res) => {
     let user_id = req.body.user_id ?? ''
+    console.log(user_id);
     const [result, metadata] = await sequelize.query(
-        `SELECT products.name, products.image, products.price, carts_details.id AS cartsDetailsId, carts_details.product_id, carts_details.cart_id, carts_details.quantity, carts_details.size, carts_details.status, carts.user_id FROM products INNER JOIN carts_details ON products.id = carts_details.product_id
+        `SELECT products.name, products.image, products.price, carts_details.id AS cartsDetailsId, carts_details.product_id, carts_details.cart_id, carts_details.quantity, carts_details.size, carts_details.status, carts.user_id 
+        FROM products 
+        INNER JOIN carts_details ON products.id = carts_details.product_id
         INNER JOIN carts ON carts_details.cart_id = carts.id
         WHERE carts.user_id = '${user_id}'`
     );
